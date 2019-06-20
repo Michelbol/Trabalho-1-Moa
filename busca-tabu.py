@@ -14,9 +14,9 @@ cities = [
   [18,  12, 13, 25, 22, 37, 84, 13, 18, 38, 0]    #10
 ]
 
-melhor_solucao = 299
-melhor_lista = [0,1,2,3,4,5,6,7,8,9,10]
-lista_tabu = [{ 'lista': [0,1,2,3,4,5,6,7,8,9,10], 'custo': 299 }]
+melhor_solucao = float("inf")
+melhor_lista = []
+lista_tabu = [{'lista': [0, 8, 7, 2, 10, 1, 4, 3, 5, 9, 6, 0], 'custo': 299}]
 
 
 def troca_elem(lista, pos_x, pos_y):
@@ -29,12 +29,13 @@ def calc_dist(lista):
     dist = 0
     for index in range(len(lista)):
         elemento_atual = lista[index]
-        if(index+1 == len(lista)):
+        if index+1 == len(lista):
             proximo_element = lista[0]
         else:
             proximo_element = lista[index+1]
         dist += cities[elemento_atual][proximo_element]
     return dist
+
 
 def melhor_resultado_lista_tabu(lista_tabu, index_tabu):
     melhor_solucao_local = float("inf")
@@ -47,7 +48,7 @@ def melhor_resultado_lista_tabu(lista_tabu, index_tabu):
 
 
 def busca_tabu(melhor_solucao, melhor_lista):
-    for index in range(35):
+    for index in range(10):
         lista_tabu_atual = []
         lista_tabu_atual = lista_tabu_atual+lista_tabu[index]['lista']
         melhor_solucao_local = float("inf")
@@ -62,7 +63,7 @@ def busca_tabu(melhor_solucao, melhor_lista):
 
             dist_atual = calc_dist(lista_tabu_atual)
             lista_solucoes_locais.append({ 'lista': lista_tabu_atual, 'custo': dist_atual })
-            if (dist_atual < melhor_solucao_local):
+            if dist_atual < melhor_solucao_local:
                 melhor_solucao_local = dist_atual
                 lista_local = []
                 lista_local = lista_local+lista_tabu_atual
@@ -80,7 +81,8 @@ def busca_tabu(melhor_solucao, melhor_lista):
 
     return [melhor_solucao, melhor_lista]
 
+
 melhor_galera = busca_tabu(melhor_solucao, melhor_lista)
 melhor_solucao = melhor_galera[0]
 melhor_lista = melhor_galera[1]
-print(lista_tabu)
+print(melhor_solucao, melhor_lista)
